@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-//import Cookies from "js-cookie";
 import { useNavigate, Link } from "react-router-dom";
 import "./index.css";
 
@@ -7,13 +6,15 @@ const RegisterForm = () => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
+    role: "Student",
     name: "",
     email: "",
+    phone: "",
   });
 
   const [showSubmitError, setShowSubmitError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const [role, setRole] = useState("STUDENT"); // Default role
+  const [role, setRole] = useState("Student"); // Default role
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -44,6 +45,7 @@ const RegisterForm = () => {
 
   const submitForm = async (event) => {
     event.preventDefault();
+
     const url = "http://localhost:3003/register";
     const options = {
       method: "POST",
@@ -52,10 +54,9 @@ const RegisterForm = () => {
       },
       body: JSON.stringify(formData),
     };
+    console.log(JSON.stringify(formData));
     const response = await fetch(url, options);
-    console.log(formData);
 
-    console.log(response);
     const data = await response.text();
 
     if (response.ok) {
@@ -65,6 +66,7 @@ const RegisterForm = () => {
         password: "",
         name: "",
         email: "",
+        phone: "",
       });
       setErrorMsg("");
     } else {
@@ -106,7 +108,7 @@ const RegisterForm = () => {
             fontWeight: "500",
           }}
         >
-          <p style={{ fontSize: "18px" }}>Create your Todo</p>
+          <p style={{ fontSize: "18px" }}>Create your</p>
           <img
             src="https://tse2.mm.bing.net/th?id=OIP.4lRAXpFHOEeCMX2stzEcxgHaEK&pid=Api&P=0&h=180"
             alt="website login"
@@ -129,6 +131,9 @@ const RegisterForm = () => {
         </div>
         <div className="input-container">
           {renderInputField("Email", "email", "email", "Enter your email")}
+        </div>
+        <div className="input-container">
+          {renderInputField("Phone", "phone", "text", "Enter your phone No")}
         </div>
         <div className="input-container">
           {renderInputField(
@@ -157,6 +162,7 @@ const RegisterForm = () => {
             </option>
           </select>
         </div>
+
         <button type="submit" className="login-button">
           Register Now
         </button>
